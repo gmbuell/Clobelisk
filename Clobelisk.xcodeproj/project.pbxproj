@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A47F0C9078DB920137B42A10 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3963EA82EA2C3FDB7D5E168B /* libPods.a */; };
 		ACC509361ACA301700CB70FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC509351ACA301700CB70FD /* main.m */; };
-		ACC509391ACA301700CB70FD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC509381ACA301700CB70FD /* AppDelegate.m */; };
-		ACC5093C1ACA301700CB70FD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC5093B1ACA301700CB70FD /* ViewController.m */; };
-		ACC5093F1ACA301700CB70FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACC5093D1ACA301700CB70FD /* Main.storyboard */; };
+		ACC509391ACA301700CB70FD /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACC509381ACA301700CB70FD /* AppDelegate.mm */; };
+		ACC5093C1ACA301700CB70FD /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACC5093B1ACA301700CB70FD /* ViewController.mm */; };
 		ACC509411ACA301700CB70FD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACC509401ACA301700CB70FD /* Images.xcassets */; };
 		ACC509441ACA301700CB70FD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACC509421ACA301700CB70FD /* LaunchScreen.xib */; };
 		ACC509501ACA301700CB70FD /* ClobeliskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC5094F1ACA301700CB70FD /* ClobeliskTests.m */; };
+		ACC5095B1ACA49E700CB70FD /* ClobeliskCollectionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACC5095A1ACA49E700CB70FD /* ClobeliskCollectionViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,19 +28,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1FAA7CB029FBBD8A2C7AA6B5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		3963EA82EA2C3FDB7D5E168B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DAD5DAF349D29774F7E0134 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		ACC509301ACA301700CB70FD /* Clobelisk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clobelisk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACC509341ACA301700CB70FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACC509351ACA301700CB70FD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ACC509371ACA301700CB70FD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		ACC509381ACA301700CB70FD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		ACC509381ACA301700CB70FD /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		ACC5093A1ACA301700CB70FD /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		ACC5093B1ACA301700CB70FD /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		ACC5093E1ACA301700CB70FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		ACC5093B1ACA301700CB70FD /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		ACC509401ACA301700CB70FD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACC509431ACA301700CB70FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		ACC509491ACA301700CB70FD /* ClobeliskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClobeliskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACC5094E1ACA301700CB70FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACC5094F1ACA301700CB70FD /* ClobeliskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClobeliskTests.m; sourceTree = "<group>"; };
+		ACC509591ACA49E700CB70FD /* ClobeliskCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClobeliskCollectionViewController.h; sourceTree = "<group>"; };
+		ACC5095A1ACA49E700CB70FD /* ClobeliskCollectionViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ClobeliskCollectionViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A47F0C9078DB920137B42A10 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +66,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7086BD39EFD025811EDC0B20 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3963EA82EA2C3FDB7D5E168B /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A0ABDE753FDDC838626F0A0A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1FAA7CB029FBBD8A2C7AA6B5 /* Pods.debug.xcconfig */,
+				6DAD5DAF349D29774F7E0134 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		ACC509271ACA301700CB70FD = {
 			isa = PBXGroup;
 			children = (
 				ACC509321ACA301700CB70FD /* Clobelisk */,
 				ACC5094C1ACA301700CB70FD /* ClobeliskTests */,
 				ACC509311ACA301700CB70FD /* Products */,
+				A0ABDE753FDDC838626F0A0A /* Pods */,
+				7086BD39EFD025811EDC0B20 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -82,13 +107,14 @@
 			isa = PBXGroup;
 			children = (
 				ACC509371ACA301700CB70FD /* AppDelegate.h */,
-				ACC509381ACA301700CB70FD /* AppDelegate.m */,
+				ACC509381ACA301700CB70FD /* AppDelegate.mm */,
 				ACC5093A1ACA301700CB70FD /* ViewController.h */,
-				ACC5093B1ACA301700CB70FD /* ViewController.m */,
-				ACC5093D1ACA301700CB70FD /* Main.storyboard */,
+				ACC5093B1ACA301700CB70FD /* ViewController.mm */,
 				ACC509401ACA301700CB70FD /* Images.xcassets */,
 				ACC509421ACA301700CB70FD /* LaunchScreen.xib */,
 				ACC509331ACA301700CB70FD /* Supporting Files */,
+				ACC509591ACA49E700CB70FD /* ClobeliskCollectionViewController.h */,
+				ACC5095A1ACA49E700CB70FD /* ClobeliskCollectionViewController.mm */,
 			);
 			path = Clobelisk;
 			sourceTree = "<group>";
@@ -126,9 +152,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACC509531ACA301700CB70FD /* Build configuration list for PBXNativeTarget "Clobelisk" */;
 			buildPhases = (
+				5FEF44F01753CD903737D020 /* Check Pods Manifest.lock */,
 				ACC5092C1ACA301700CB70FD /* Sources */,
 				ACC5092D1ACA301700CB70FD /* Frameworks */,
 				ACC5092E1ACA301700CB70FD /* Resources */,
+				667E57F72AD967DCA2109458 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -199,7 +227,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACC5093F1ACA301700CB70FD /* Main.storyboard in Resources */,
 				ACC509441ACA301700CB70FD /* LaunchScreen.xib in Resources */,
 				ACC509411ACA301700CB70FD /* Images.xcassets in Resources */,
 			);
@@ -214,13 +241,47 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5FEF44F01753CD903737D020 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		667E57F72AD967DCA2109458 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		ACC5092C1ACA301700CB70FD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACC5093C1ACA301700CB70FD /* ViewController.m in Sources */,
-				ACC509391ACA301700CB70FD /* AppDelegate.m in Sources */,
+				ACC5093C1ACA301700CB70FD /* ViewController.mm in Sources */,
+				ACC5095B1ACA49E700CB70FD /* ClobeliskCollectionViewController.mm in Sources */,
+				ACC509391ACA301700CB70FD /* AppDelegate.mm in Sources */,
 				ACC509361ACA301700CB70FD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,14 +305,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		ACC5093D1ACA301700CB70FD /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ACC5093E1ACA301700CB70FD /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		ACC509421ACA301700CB70FD /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -343,6 +396,7 @@
 		};
 		ACC509541ACA301700CB70FD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1FAA7CB029FBBD8A2C7AA6B5 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Clobelisk/Info.plist;
@@ -353,6 +407,7 @@
 		};
 		ACC509551ACA301700CB70FD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DAD5DAF349D29774F7E0134 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Clobelisk/Info.plist;
@@ -414,6 +469,7 @@
 				ACC509551ACA301700CB70FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ACC509561ACA301700CB70FD /* Build configuration list for PBXNativeTarget "ClobeliskTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +478,7 @@
 				ACC509581ACA301700CB70FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
