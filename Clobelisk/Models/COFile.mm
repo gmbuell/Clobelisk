@@ -1,6 +1,6 @@
-#import "Video.h"
+#import "COFile.h"
 
-@implementation Video
+@implementation COFile
 
 - (instancetype)initWithText:(NSString *)text
                       author:(NSString *)author

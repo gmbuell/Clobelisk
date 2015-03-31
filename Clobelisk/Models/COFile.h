@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@interface Quote : NSObject
+@interface COFile : NSObject
 
 @property (nonatomic, readonly, copy) NSString *text;
 @property (nonatomic, readonly, copy) NSString *author;

@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "ClobeliskCollectionViewController.h"
+#import "COCollectionViewController.h"
 
 @interface AppDelegate ()
 @end
@@ -25,7 +25,7 @@
     [flowLayout setMinimumInteritemSpacing:0];
     [flowLayout setMinimumLineSpacing:0];
     
-    ClobeliskCollectionViewController *viewController = [[ClobeliskCollectionViewController alloc] initWithCollectionViewLayout:flowLayout];
+    COCollectionViewController *viewController = [[COCollectionViewController alloc] initWithCollectionViewLayout:flowLayout];
     
     [_window setRootViewController:[[UINavigationController alloc] initWithRootViewController:viewController]];
     [_window makeKeyAndVisible];
