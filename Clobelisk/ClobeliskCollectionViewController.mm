@@ -13,6 +13,9 @@
 #import <ComponentKit/CKArrayControllerChangeset.h>
 #import <ComponentKit/CKComponentFlexibleSizeRangeProvider.h>
 
+#import "Video.h"
+#import "VideoComponent.h"
+
 @interface ClobeliskCollectionViewController () <CKComponentProvider, UIScrollViewDelegate>
 @end
 

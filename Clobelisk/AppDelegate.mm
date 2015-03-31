@@ -11,7 +11,6 @@
 #import "ClobeliskCollectionViewController.h"
 
 @interface AppDelegate ()
-
 @end
 
 @implementation AppDelegate {
