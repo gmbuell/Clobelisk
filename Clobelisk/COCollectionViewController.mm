@@ -14,6 +14,9 @@
 #import <ComponentKit/CKArrayControllerChangeset.h>
 #import <ComponentKit/CKComponentFlexibleSizeRangeProvider.h>
 
+#import <PromiseKit.h>
+#import <AFNetworking+PromiseKit.h>
+
 #import "COFile.h"
 #import "COFileComponent.h"
 
@@ -86,6 +89,13 @@ static NSArray *cofileList()
     items.insert({0, 0}, [[COFile alloc] initWithText:@"I have the simplest tastes. I am always satisfied with the best." author:@"Oscar Wilde"]);
     [_dataSource enqueueChangeset:{{}, items}
                   constrainedSize:[_sizeRangeProvider sizeRangeForBoundingSize:self.collectionView.bounds.size]];
+    
+    [AFHTTPRequestOperation request:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://obelisk/"]]].then(^(id responseObject){
+        NSLog(@"operation completed! %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+    }).catchOn(dispatch_get_main_queue(), ^(NSError *error){
+        NSLog(@"error: %@", error.localizedDescription);
+        NSLog(@"original operation: %@", error.userInfo[AFHTTPRequestOperationErrorKey]);
+    });
 }
 
 
