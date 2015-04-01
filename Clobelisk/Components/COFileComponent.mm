@@ -2,6 +2,9 @@
 
 #import "COFile.h"
 
+#import <ComponentKit/CKStackLayoutComponent.h>
+#import <ComponentKit/CKLabelComponent.h>
+
 @implementation COFileComponent
 
 + (instancetype)newWithCOFile:(COFile *)file
@@ -43,5 +46,8 @@ static CKComponent *cofileComponent(COFile *file)
           .alignSelf = CKStackLayoutAlignSelfEnd
           }
     }
-          ]
+          ];
 }
+
+
+@end

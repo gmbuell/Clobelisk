@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ClobeliskCollectionViewController : UICollectionViewController
+@interface COCollectionViewController : UICollectionViewController
 
 @end

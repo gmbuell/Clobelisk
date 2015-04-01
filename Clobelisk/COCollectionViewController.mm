@@ -8,6 +8,7 @@
 
 #import "COCollectionViewController.h"
 
+#import <Foundation/Foundation.h>
 #import <ComponentKit/CKComponentProvider.h>
 #import <ComponentKit/CKCollectionViewDataSource.h>
 #import <ComponentKit/CKArrayControllerChangeset.h>
@@ -82,12 +83,9 @@ static NSArray *cofileList()
 
     // Insert some sample items.
     CKArrayControllerInputItems items;
-    NSArray *files = cofilesList();
-    for (NSInteger i = 0; i < [files count]; i++) {
-      items.insert([NSIndexPath indexPathForRow:i inSection:0], files[i]);
-    }
+    items.insert({0, 0}, [[COFile alloc] initWithText:@"I have the simplest tastes. I am always satisfied with the best." author:@"Oscar Wilde"]);
     [_dataSource enqueueChangeset:{{}, items}
-   constrainedSize:[_sizeRangeProvider sizeRangeForBoundingSize:self.collectionView.bounds.size]];
+                  constrainedSize:[_sizeRangeProvider sizeRangeForBoundingSize:self.collectionView.bounds.size]];
 }
 
 
@@ -102,7 +100,7 @@ static NSArray *cofileList()
 
 #pragma mark - CKComponentProvider
 
-+ (CKComponent *)componentForModel:(COFile *)file
++ (CKComponent *)componentForModel:(COFile *)file context:(NSObject *)context
 {
   return [COFileComponent
           newWithCOFile:file];
