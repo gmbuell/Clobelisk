@@ -13,20 +13,19 @@
 #import <ComponentKit/CKCollectionViewDataSource.h>
 #import <ComponentKit/CKArrayControllerChangeset.h>
 #import <ComponentKit/CKComponentFlexibleSizeRangeProvider.h>
-
 #import <PromiseKit.h>
-#import <AFNetworking+PromiseKit.h>
 
 #import "COFile.h"
 #import "COFileComponent.h"
+#import "COHTTPController.h"
 
 @interface COCollectionViewController () <CKComponentProvider, UIScrollViewDelegate>
 @end
 
 @implementation COCollectionViewController {
     CKCollectionViewDataSource *_dataSource;
-    // QuoteModelController *_quoteModelController;
     CKComponentFlexibleSizeRangeProvider *_sizeRangeProvider;
+    COHTTPController *_http_controller;
 }
 
 - (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
@@ -37,6 +36,10 @@
         self.title = @"Clobelisk";
         self.navigationItem.prompt = @"Hello";
     }
+    
+    _http_controller = [[COHTTPController alloc] init];
+    [_http_controller fetchFiles];
+
     return self;
 }
 
@@ -83,19 +86,17 @@ static NSArray *cofileList()
     CKArrayControllerSections sections;
     sections.insert(0);
     [_dataSource enqueueChangeset:{sections, {}} constrainedSize:{}];
-
-    // Insert some sample items.
-    CKArrayControllerInputItems items;
-    items.insert({0, 0}, [[COFile alloc] initWithText:@"I have the simplest tastes. I am always satisfied with the best." author:@"Oscar Wilde"]);
-    [_dataSource enqueueChangeset:{{}, items}
-                  constrainedSize:[_sizeRangeProvider sizeRangeForBoundingSize:self.collectionView.bounds.size]];
     
-    [AFHTTPRequestOperation request:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://obelisk/"]]].then(^(id responseObject){
-        NSLog(@"operation completed! %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-    }).catchOn(dispatch_get_main_queue(), ^(NSError *error){
-        NSLog(@"error: %@", error.localizedDescription);
-        NSLog(@"original operation: %@", error.userInfo[AFHTTPRequestOperationErrorKey]);
+    [_http_controller fetchFiles].then(^(NSArray *fileNames) {
+        CKArrayControllerInputItems items;
+        for (NSInteger i = 0; i < [fileNames count]; i++) {
+            items.insert([NSIndexPath indexPathForRow:i inSection:0], [[COFile alloc] initWithText:fileNames[i] author:@""]);
+        }
+        [_dataSource enqueueChangeset:{{}, items}
+                      constrainedSize:[_sizeRangeProvider sizeRangeForBoundingSize:self.collectionView.bounds.size]];
     });
+
+    
 }
 
 
