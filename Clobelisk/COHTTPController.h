@@ -13,5 +13,6 @@
 @interface COHTTPController : NSObject
 
 - (PMKPromise *)fetchFiles;
+- (PMKPromise *)fetchDirectory:(NSString *)directory;
 
 @end

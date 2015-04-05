@@ -48,4 +48,27 @@
     }];
 }
 
+- (PMKPromise *)fetchDirectory:(NSString *)directory {
+    return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
+        [AFHTTPRequestOperation request:[NSURLRequest requestWithURL:[NSURL URLWithString:[[NSString stringWithFormat:@"http://192.168.1.39/Movies/%@", directory] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]].then(^(id responseObject){
+            TFHpple *doc = [[TFHpple alloc] initWithHTMLData:responseObject];
+            NSArray *elements = [doc searchWithXPathQuery:@"//a"];
+            
+            _fileList = Underscore.array(elements)
+            .reject(^BOOL (TFHppleElement *e) {
+                return [[e text] isEqualToString:@"../"];
+            }).map(^NSString *(TFHppleElement *e) {
+                return [[e text] stringByReplacingOccurrencesOfString:@"/" withString:@""];
+            }).unwrap;
+            
+            NSLog(@"Fetched Directories.");
+            fulfill(_fileList);
+        }).catch(^(NSError *error){
+            NSLog(@"error: %@", error.localizedDescription);
+            NSLog(@"original operation: %@", error.userInfo[AFHTTPRequestOperationErrorKey]);
+            reject(error);
+        });
+    }];
+}
+
 @end

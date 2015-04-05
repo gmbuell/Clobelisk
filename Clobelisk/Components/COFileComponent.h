@@ -7,6 +7,6 @@
  */
 @interface COFileComponent : CKCompositeComponent
 
-+ (instancetype)newWithCOFile:(COFile *)file;
++ (instancetype)newWithCOFile:(COFile *)file context:(NSObject *)context;
 
 @end

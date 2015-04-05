@@ -8,24 +8,17 @@
 #import <ComponentKit/CKInsetComponent.h>
 #import <ComponentKit/CKComponentScope.h>
 
-@implementation COFileComponent {
-    NSString *_fileName;
-}
+@implementation COFileComponent
 
-+ (instancetype)newWithCOFile:(COFile *)file
++ (instancetype)newWithCOFile:(COFile *)file context:(NSObject *)context
 {
-    COFileComponent *component = [super newWithComponent:cofileComponent(file)];
-    component->_fileName = file.text;
-    return component;
+    return [super newWithComponent:cofileComponent(file)];
 }
 
 static CKComponent *cofileComponent(COFile *file)
 {
     return [CKStackLayoutComponent
-            newWithView:{
-                [UIView class],
-                {CKComponentTapGestureAttribute(@selector(didTap))}
-            }
+            newWithView:{}
             size:{}
             style:{
                 .alignItems = CKStackLayoutAlignItemsStretch
@@ -55,11 +48,6 @@ static CKComponent *hairlineComponent()
                 {{@selector(setBackgroundColor:), [UIColor lightGrayColor]}}
             }
             size:{.height = 1/[UIScreen mainScreen].scale}];
-}
-
-- (void)didTap
-{
-    NSLog(@"Tapped %@", _fileName);
 }
 
 @end

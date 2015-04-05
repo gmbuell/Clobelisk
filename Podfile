@@ -7,3 +7,4 @@ pod "AFNetworking", "~> 2.0"
 pod "PromiseKit-AFNetworking"
 pod "hpple", :git => 'https://github.com/topfunky/hpple.git'
 pod 'Underscore.m', "~> 0.2.1"
+pod 'google-cast-sdk', "~> 2.6.0"

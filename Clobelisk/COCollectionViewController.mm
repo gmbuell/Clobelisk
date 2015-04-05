@@ -19,7 +19,7 @@
 #import "COFileComponent.h"
 #import "COHTTPController.h"
 
-@interface COCollectionViewController () <CKComponentProvider, UIScrollViewDelegate>
+@interface COCollectionViewController () <CKComponentProvider, UIScrollViewDelegate, UICollectionViewDelegate>
 @end
 
 @implementation COCollectionViewController {
@@ -38,36 +38,8 @@
     }
     
     _http_controller = [[COHTTPController alloc] init];
-    [_http_controller fetchFiles];
 
     return self;
-}
-
-static NSArray *cofileList()
-{
-  static NSArray *files;
-  static dispatch_once_t once;
-  dispatch_once(&once, ^{
-    files = @[
-               @{
-                 @"text": @"I have the simplest tastes. I am always satisfied with the best.",
-                 @"author": @"Oscar Wilde",
-                 },
-               @{
-                 @"text": @"A thing is not necessarily true because a man dies for it.",
-                 @"author": @"Oscar Wilde",
-                 },
-               @{
-                 @"text": @"A poet can survive everything but a misprint.",
-                 @"author": @"Oscar Wilde",
-                 },
-               @{
-                 @"text": @"He is really not so ugly after all, provided, of course, that one shuts one's eyes, and does not look at him.",
-                 @"author": @"Oscar Wilde",
-                 }
-               ];
-  });
-  return files;
 }
 
 - (void)viewDidLoad
@@ -113,14 +85,25 @@ static NSArray *cofileList()
 
 + (CKComponent *)componentForModel:(COFile *)file context:(NSObject *)context
 {
-  return [COFileComponent
-          newWithCOFile:file];
+  return [COFileComponent newWithCOFile:file context:context];
 }
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+}
+
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    COFile *file = (COFile *)[_dataSource modelForItemAtIndexPath:indexPath];
+    NSLog(@"%@", file.text);
+    [_http_controller fetchDirectory:file.text].then(^(NSArray *directoryContents) {
+        for (NSString *dir in directoryContents) {
+            NSLog(@"%@", dir);
+        }
+    });
 }
 
 @end
