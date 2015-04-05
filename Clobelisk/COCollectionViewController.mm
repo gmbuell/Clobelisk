@@ -18,6 +18,7 @@
 #import "COFile.h"
 #import "COFileComponent.h"
 #import "COHTTPController.h"
+#import "ChromecastDeviceController.h"
 
 @interface COCollectionViewController () <CKComponentProvider, UIScrollViewDelegate, UICollectionViewDelegate>
 @end
@@ -26,6 +27,7 @@
     CKCollectionViewDataSource *_dataSource;
     CKComponentFlexibleSizeRangeProvider *_sizeRangeProvider;
     COHTTPController *_http_controller;
+    ChromecastDeviceController *_chromecast_controller;
 }
 
 - (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
@@ -38,17 +40,19 @@
     }
     
     _http_controller = [[COHTTPController alloc] init];
-
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    _chromecast_controller = [[ChromecastDeviceController alloc] initWithView:super.collectionView];
+    
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.delegate = self;
-
+    
     _dataSource = [[CKCollectionViewDataSource alloc] initWithCollectionView:self.collectionView
                                                  supplementaryViewDataSource:nil
                                                            componentProvider:[self class]
@@ -67,8 +71,6 @@
         [_dataSource enqueueChangeset:{{}, items}
                       constrainedSize:[_sizeRangeProvider sizeRangeForBoundingSize:self.collectionView.bounds.size]];
     });
-
-    
 }
 
 
@@ -85,7 +87,7 @@
 
 + (CKComponent *)componentForModel:(COFile *)file context:(NSObject *)context
 {
-  return [COFileComponent newWithCOFile:file context:context];
+    return [COFileComponent newWithCOFile:file context:context];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -95,7 +97,7 @@
 }
 
 #pragma mark - UICollectionViewDelegate
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     COFile *file = (COFile *)[_dataSource modelForItemAtIndexPath:indexPath];
     NSLog(@"%@", file.text);
