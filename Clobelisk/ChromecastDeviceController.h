@@ -22,10 +22,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class COFile;
+
 /**
  * Controller for managing the Chromecast device. Provides methods to connect to
  * the device, launch an application, load media and control its playback.
  */
 @interface ChromecastDeviceController : NSObject
+- (void)chooseDeviceForFile:(COFile *)file;
+
 - (instancetype)initWithView:(UIView *)view;
 @end

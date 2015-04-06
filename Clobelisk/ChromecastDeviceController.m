@@ -9,6 +9,9 @@
 #import "ChromecastDeviceController.h"
 
 #import <GoogleCast/GoogleCast.h>
+#import <MBProgressHUD.h>
+
+#import "COFile.h"
 
 static NSString *kReceiverAppID;
 
@@ -28,6 +31,7 @@ GCKMediaControlChannelDelegate>
 
 @implementation ChromecastDeviceController {
     UIView *_view;
+    COFile *_current_file;
 }
 - (instancetype)initWithView:(UIView *)view
 {
@@ -46,7 +50,8 @@ GCKMediaControlChannelDelegate>
     return self;
 }
 
-- (void)chooseDevice:(id)sender {
+- (void)chooseDeviceForFile:(COFile *)file {
+    _current_file = file;
     //Choose device
     if (self.selectedDevice == nil) {
         //Choose device
@@ -67,25 +72,15 @@ GCKMediaControlChannelDelegate>
         //show device selection
         [sheet showInView:_view];
     } else {
-        // Gather stats from device.
-        [self updateStatsFromDevice];
-        
         NSString *friendlyName = [NSString stringWithFormat:NSLocalizedString(@"Casting to %@", nil),
                                   self.selectedDevice.friendlyName];
-        NSString *mediaTitle = [self.mediaInformation.metadata stringForKey:kGCKMetadataKeyTitle];
-        
         UIActionSheet *sheet = [[UIActionSheet alloc] init];
         sheet.title = friendlyName;
         sheet.delegate = self;
-        if (mediaTitle != nil) {
-            [sheet addButtonWithTitle:mediaTitle];
-        }
         
-        //Offer disconnect option
-        [sheet addButtonWithTitle:@"Disconnect"];
+        [sheet addButtonWithTitle:[NSString stringWithFormat:@"Play %@", file.text]];
         [sheet addButtonWithTitle:@"Cancel"];
-        sheet.destructiveButtonIndex = (mediaTitle != nil ? 1 : 0);
-        sheet.cancelButtonIndex = (mediaTitle != nil ? 2 : 1);
+        sheet.cancelButtonIndex = 1;
         
         [sheet showInView:_view];
     }
@@ -136,8 +131,10 @@ GCKMediaControlChannelDelegate>
 }
 
 //Cast video
-- (IBAction)castVideo:(id)sender {
-    NSLog(@"Cast Video");
+- (IBAction)castVideo:(COFile *)file {
+    NSLog(@"Casting Video %@", file.text);
+    NSLog(@"Video has path %@", file.video_path);
+    NSLog(@"Image path %@", file.image_path);
     
     //Show alert if not connected
     if (!self.deviceManager || !self.deviceManager.isConnected) {
@@ -154,24 +151,16 @@ GCKMediaControlChannelDelegate>
     //Define Media metadata
     GCKMediaMetadata *metadata = [[GCKMediaMetadata alloc] init];
     
-    [metadata setString:@"Big Buck Bunny (2008)" forKey:kGCKMetadataKeyTitle];
-    
-    [metadata setString:@"Big Buck Bunny tells the story of a giant rabbit with a heart bigger than "
-     "himself. When one sunny day three rodents rudely harass him, something "
-     "snaps... and the rabbit ain't no bunny anymore! In the typical cartoon "
-     "tradition he prepares the nasty rodents a comical revenge."
-                 forKey:kGCKMetadataKeySubtitle];
+    [metadata setString:file.text forKey:kGCKMetadataKeyTitle];
     
     [metadata addImage:[[GCKImage alloc]
-                        initWithURL:[[NSURL alloc] initWithString:@"http://commondatastorage.googleapis.com/"
-                                     "gtv-videos-bucket/sample/images/BigBuckBunny.jpg"]
-                        width:480
-                        height:360]];
+                        initWithURL:[[NSURL alloc] initWithString:file.image_path]
+                        width:1000
+                        height:562]];
     
     //define Media information
     GCKMediaInformation *mediaInformation =
-    [[GCKMediaInformation alloc] initWithContentID:
-     @"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    [[GCKMediaInformation alloc] initWithContentID:file.video_path
                                         streamType:GCKMediaStreamTypeNone
                                        contentType:@"video/mp4"
                                           metadata:metadata
@@ -186,6 +175,9 @@ GCKMediaControlChannelDelegate>
 #pragma mark - GCKDeviceScannerListener
 - (void)deviceDidComeOnline:(GCKDevice *)device {
     NSLog(@"device found!! %@", device.friendlyName);
+    
+    [self showHUDWithMessage:[NSString stringWithFormat:@"Chromecast found: %@", device.friendlyName]];
+    
     [self updateButtonStates];
 }
 
@@ -202,20 +194,10 @@ GCKMediaControlChannelDelegate>
             [self connectToDevice];
         }
     } else {
-        if (buttonIndex == 1) {  //Disconnect button
-            NSLog(@"Disconnecting device:%@", self.selectedDevice.friendlyName);
-            // New way of doing things: We're not going to stop the applicaton. We're just going
-            // to leave it.
-            [self.deviceManager leaveApplication];
-            // If you want to force application to stop, uncomment below
-            //[self.deviceManager stopApplicationWithSessionID:self.applicationMetadata.sessionID];
-            [self.deviceManager disconnect];
-            
-            [self deviceDisconnected];
-            [self updateButtonStates];
-        } else if (buttonIndex == 0) {
+        // buttonIndex 1 is Cancel
+        if (buttonIndex == 0) {
             // Join the existing session.
-            
+            [self castVideo:_current_file];
         }
     }
 }
@@ -225,12 +207,7 @@ GCKMediaControlChannelDelegate>
 - (void)deviceManagerDidConnect:(GCKDeviceManager *)deviceManager {
     NSLog(@"connected!!");
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connected!", nil)
-                                                    message:NSLocalizedString(@"Device connected.", nil)
-                                                   delegate:nil
-                                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                          otherButtonTitles:nil];
-    [alert show];
+    [self showHUDWithMessage:[NSString stringWithFormat:@"Connected to %@", deviceManager.device.friendlyName]];
     
     [self updateButtonStates];
     [self.deviceManager launchApplication:kReceiverAppID];
@@ -242,11 +219,14 @@ didConnectToCastApplication:(GCKApplicationMetadata *)applicationMetadata
   launchedApplication:(BOOL)launchedApplication {
     
     NSLog(@"application has launched");
+    [self showHUDWithMessage:@"Application launched"];
+    
     self.mediaControlChannel = [[GCKMediaControlChannel alloc] init];
     self.mediaControlChannel.delegate = self;
     [self.deviceManager addChannel:self.mediaControlChannel];
     [self.mediaControlChannel requestStatus];
     
+    [self castVideo:_current_file];
 }
 
 - (void)deviceManager:(GCKDeviceManager *)deviceManager
@@ -290,5 +270,17 @@ didReceiveStatusForApplication:(GCKApplicationMetadata *)applicationMetadata {
                                           cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                           otherButtonTitles:nil];
     [alert show];
+}
+
+- (void)showHUDWithMessage:(NSString *)message
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = message;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:_view animated:YES];
+        });
+    });
 }
 @end

@@ -14,6 +14,7 @@
 #import <ComponentKit/CKArrayControllerChangeset.h>
 #import <ComponentKit/CKComponentFlexibleSizeRangeProvider.h>
 #import <PromiseKit.h>
+#import <Underscore.h>
 
 #import "COFile.h"
 #import "COFileComponent.h"
@@ -66,7 +67,7 @@
     [_http_controller fetchFiles].then(^(NSArray *fileNames) {
         CKArrayControllerInputItems items;
         for (NSInteger i = 0; i < [fileNames count]; i++) {
-            items.insert([NSIndexPath indexPathForRow:i inSection:0], [[COFile alloc] initWithText:fileNames[i] author:@""]);
+            items.insert([NSIndexPath indexPathForRow:i inSection:0], [[COFile alloc] initWithText:fileNames[i]]);
         }
         [_dataSource enqueueChangeset:{{}, items}
                       constrainedSize:[_sizeRangeProvider sizeRangeForBoundingSize:self.collectionView.bounds.size]];
@@ -104,6 +105,37 @@
     [_http_controller fetchDirectory:file.text].then(^(NSArray *directoryContents) {
         for (NSString *dir in directoryContents) {
             NSLog(@"%@", dir);
+        }
+        // Set video path to the first mp4
+        NSArray *mp4s = Underscore.array(directoryContents).filter(^BOOL (NSString *item) {
+            return [item hasSuffix:@".mp4"];
+        }).unwrap;
+        
+        BOOL has_landscape = Underscore.array(directoryContents).any(^BOOL (NSString *item) {
+            return [item isEqualToString:@"landscape.jpg"];
+        });
+        
+        if ([mp4s count] > 0) {
+            file.video_path = [[NSString stringWithFormat:@"http://192.168.1.39/Movies/%@/%@", file.text, mp4s[0]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            
+            if (has_landscape) {
+                file.image_path = [[NSString stringWithFormat:@"http://192.168.1.39/Movies/%@/landscape.jpg", file.text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            } else {
+                NSArray *fanart = Underscore.array(directoryContents).filter(^BOOL (NSString *item) {
+                    return [item hasSuffix:@"fanart.jpg"];
+                }).unwrap;
+                if ([fanart count] > 0) {
+                   file.image_path = [[NSString stringWithFormat:@"http://192.168.1.39/Movies/%@/%@", file.text, fanart[0]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                }
+            }
+            [_chromecast_controller chooseDeviceForFile:file];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
+                                                            message:[NSString stringWithFormat:@"No mp4 for %@", file.text]
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                  otherButtonTitles:nil];
+            [alert show];
         }
     });
 }
